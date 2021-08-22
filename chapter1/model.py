@@ -17,13 +17,13 @@ class Batch:
         self._purchased_quantity = qty
         self._allocations = set()
 
-    def allocate( self, line: OrderLine):
-        #self.available_quantity -= line.qty
-        if can_allocate(line):
-            self._allocations.add(line)
-
     def can_allocate( self, line: OrderLine):
         return self.sku == line.sku and self.available_quantity >= line.qty
+
+    def allocate( self, line: OrderLine):
+        #self.available_quantity -= line.qty
+        if self.can_allocate(line):
+            self._allocations.add(line)
 
     def deallocate( self, line: OrderLine):
         if line in self._allocations:
